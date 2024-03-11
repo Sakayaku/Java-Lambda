@@ -2,6 +2,18 @@ package exercices;
 
 import java.util.function.Function;
 
-public interface Power <T,U> extends Function<T,U>{
-	public abstract T power(T element1);
+public interface Power <T> extends Function<T,T>{
+	public static <T> Power<T> identity() {
+		return (var->var);
+	}
+	public default Power<T> andThen(Power<T> f){
+		return (var->(f.apply(this.apply(var))));
+	}
+	public default Power<T> power(int n) {
+		if (n==0){
+			return identity();
+		}else {
+			return andThen(power(n-1));
+		}
+	}
 }
