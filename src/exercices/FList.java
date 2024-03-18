@@ -23,6 +23,27 @@ public class FList {
 		}
 		return resultat;
 	}
+	
+	public static <E> Boolean for_all(ArrayList<E> liste, Predicate<E> instancePredicat) {
+		int somme=0;
+		for (int i=0;i<liste.size();i++) {
+			if (instancePredicat.test(liste.get(i))){
+				somme+=0;
+			}else {
+				somme+=1;
+			}
+		}
+		return somme==0;
+	}
+	
+	public static <E> Boolean exist(ArrayList<E> liste, Predicate<E> instancePredicat) {
+		for (int i=0;i<liste.size();i++) {
+			if (instancePredicat.test(liste.get(i))){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public static void main(String[] args) {
 		ArrayList<Integer> l1=new ArrayList<Integer>();
@@ -37,8 +58,15 @@ public class FList {
 		l1.add(8);
 		Function<Integer,Integer> f=(var->var+1);
 		System.out.println(map(l1,f));
-		Predicate<Integer> p=(var->var<=4);
-		System.out.println(filter(l1,p));
+		Predicate<Integer> pi4=(var->var<=4);
+		Predicate<Integer> pi10=(var->var<=10);
+		Predicate<Integer> ps4=(var->var>=4);
+		Predicate<Integer> ps10=(var->var>=10);
+		System.out.println(filter(l1,pi4));
+		System.out.println(for_all(l1,pi4));
+		System.out.println(for_all(l1,pi10));
+		System.out.println(exist(l1,pi4));
+		System.out.println(exist(l1,ps10));
 	}
 
 }
